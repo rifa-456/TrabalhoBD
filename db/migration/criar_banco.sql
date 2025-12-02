@@ -19,25 +19,21 @@ CREATE TABLE prato (
     categoria VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE funcionario (
+CREATE TABLE garcom (
     id_funcionario SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     cpf VARCHAR(14) UNIQUE NOT NULL,
     salario DECIMAL(10, 2) NOT NULL,
-    tipo_funcionario VARCHAR(20) CHECK (tipo_funcionario IN ('GARCOM', 'COZINHEIRO'))
-);
-
-CREATE TABLE garcom (
-    id_funcionario INT PRIMARY KEY,
     turno VARCHAR(20),
-    comissao DECIMAL(5, 2),
-    FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario) ON DELETE CASCADE
+    comissao DECIMAL(5, 2)
 );
 
 CREATE TABLE cozinheiro (
-    id_funcionario INT PRIMARY KEY,
-    especialidade VARCHAR(50),
-    FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario) ON DELETE CASCADE
+    id_funcionario SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    salario DECIMAL(10, 2) NOT NULL,
+    especialidade VARCHAR(50)
 );
 
 CREATE TABLE pedido (
@@ -49,7 +45,7 @@ CREATE TABLE pedido (
     id_funcionario INT NOT NULL,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_mesa) REFERENCES mesa(id_mesa),
-    FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario)
+    FOREIGN KEY (id_funcionario) REFERENCES garcom(id_funcionario)
 );
 
 CREATE TABLE item_pedido (
